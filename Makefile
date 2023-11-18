@@ -13,8 +13,8 @@ linux: build
 windows: TARGETOS=windows
 windows: build
 
-windows: TARGETOS=windows
-windows: build
+macos: TARGETOS=darwin TARGETARCH=amd64
+macos: build
 
 
 build: get
