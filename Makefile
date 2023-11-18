@@ -17,10 +17,10 @@ macos: TARGETOS=darwin TARGETARCH=amd64
 macos: build
 
 image:
-	docker build . --build-arg TARGETOS=${TARGETOS}  --build-arg TARGEARCH=${TARGETARCH}
+	docker build . -t=02-git/${VERSION} --build-arg TARGETOS=${TARGETOS}  --build-arg TARGEARCH=${TARGETARCH}
 
 build: get
 	 CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags "-X="github.com/ksorokin/02-git/cmd.appVersion=${VERSION}
 
 clean:
-	docker rmi -f $(docker images --format='{{.ID}}' | head -1)
+	docker rmi -f $$(docker images --format='{{.ID}}' | head -1)
