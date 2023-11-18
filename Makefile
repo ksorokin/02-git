@@ -1,7 +1,12 @@
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
+TARGETOS=linux #linux darwin window
+TARGETARCH=arm64
 
-build:
-	 go build -ldflags "-X="github.com/ksorokin/02-git/cmd.appVersion=${VERSION}
+get:
+	go get
+
+build: get
+	 CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags "-X="github.com/ksorokin/02-git/cmd.appVersion=${VERSION}
 
 clean:
-	rm -rf 02-git
+	docker rmi -f $(docker images --format='{{.ID}}' | head -1)
