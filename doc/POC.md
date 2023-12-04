@@ -10,7 +10,7 @@
    ```
 * Forwaerd port for a Web UI: 
   ```
-    kubectl port-forward svc/argocd-server -n argocd 8080:443&
+    kubectl port-forward svc/argocd-server -n argocd 8080:443
   ```
 * Go to AgroCD web interface at `localhost:8080`
 
