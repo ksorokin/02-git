@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Define command-line arguments
+RESOURCE_TYPE=$1
+NAMESPACE=${2:-default}
+
+kubectl top $RESOURCE_TYPE -n $NAMESPACE \
+  | awk -vns=$NAMESPACE -vres=$RESOURCE_TYPE 'NR==1 {print "Resource\tNamespace\tName\tCPU\tMemory"} {print res,ns,$1,$2,$3}' \
+  | column -t
