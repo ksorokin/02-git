@@ -11,4 +11,4 @@ FROM scratch
 COPY --from=builder /go/src/app/02-git .
 COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs
 
-ENTRYPOINT ["./02-git"]
+ENTRYPOINT ["./02-git", "start"]
