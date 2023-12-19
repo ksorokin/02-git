@@ -22,7 +22,7 @@ build: get
 	 CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags "-X="github.com/ksorokin/02-git/cmd.appVersion=${VERSION}
 
 clean:
-	docker rmi -f $$(docker images --format='{{.ID}}' | head -1)
+	docker rmi -f ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 	rm -rf 02-git
 
 image:

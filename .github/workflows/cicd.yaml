@@ -1,0 +1,34 @@
+name: KBOT-CICD
+
+on: push
+
+env:
+  REGISTRY: ghcr.io
+  APP: ${{ github.repository }}
+  TARGETARCH: amd64
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run test
+        run: make test
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build&Push
+        run: make image push TARGETARCH=$TARGETARCH REGISTRY=$REGISTRY APP=$APP
+      - name: Clean
+        run: make clean TARGETARCH=$TARGETARCH REGISTRY=$REGISTRY APP=$APP
