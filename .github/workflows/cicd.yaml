@@ -32,10 +32,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - run: echo "MAKE_ENV=$(echo -e TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS REGISTRY=$REGISTRY APP=$APP)" >> $GITHUB_ENV
+
       - name: Build&Push
-        run: make image push TARGETARCH=$TARGETARCH REGISTRY=$REGISTRY APP=$APP
+        run: make image push $MAKE_ENV
       - name: Clean
-        run: make clean TARGETARCH=$TARGETARCH REGISTRY=$REGISTRY APP=$APP
+        run: make clean $MAKE_ENV
 
   cd:
     name: CD
