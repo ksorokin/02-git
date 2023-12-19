@@ -35,3 +35,25 @@ jobs:
         run: make image push TARGETARCH=$TARGETARCH REGISTRY=$REGISTRY APP=$APP
       - name: Clean
         run: make clean TARGETARCH=$TARGETARCH REGISTRY=$REGISTRY APP=$APP
+
+  cd:
+    name: CD
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update helm default values
+        uses: mikefarah/yq@master
+        env:
+         cmd: VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
+        with:
+          cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -am "Bump helm values to $VERSION"
+          git push
