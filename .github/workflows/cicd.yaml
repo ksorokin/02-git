@@ -54,10 +54,10 @@ jobs:
 
       - name: Update helm default values
         uses: mikefarah/yq@master
-        env:
-         cmd: export VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
         with:
-          cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+          cmd: |
+            VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
+            yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
