@@ -6,6 +6,7 @@ env:
   REGISTRY: ghcr.io
   APP: ${{ github.repository }}
   TARGETARCH: amd64
+  TARGETOS: linux
 
 jobs:
   ci:
@@ -56,8 +57,11 @@ jobs:
       - name: Update helm default values
         uses: mikefarah/yq@master
         with:
-          cmd:
-            yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+          cmd: ->
+            yq -i '.image.tag=strenv(VERSION) 
+              | .image.arch=strenv(TARGETARCH)'
+              | .image.os=strenv(TARGETOS)'
+              helm/values.yaml
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
