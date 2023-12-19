@@ -55,7 +55,7 @@ jobs:
       - name: Update helm default values
         uses: mikefarah/yq@master
         env:
-         cmd: VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
+         cmd: export VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
         with:
           cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
       - run: |
