@@ -18,6 +18,9 @@ windows: build
 macos: TARGETOS=darwin TARGETARCH=amd64
 macos: build
 
+test:
+	go test -v
+
 build: get
 	 CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags "-X="github.com/ksorokin/02-git/cmd.appVersion=${VERSION}
 
