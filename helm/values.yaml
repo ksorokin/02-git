@@ -7,7 +7,7 @@ image:
   repository: k40in
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.2-49cb541"
+  tag: "v1.0.2-cf13a60"
   arch: "amd64"
   os: "linux"
 imagePullSecrets: []
